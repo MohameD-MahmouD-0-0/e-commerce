@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ecommerce/data/api/Api_Url.dart';
 import 'package:ecommerce/data/model/reques/Register_Request.dart';
 import 'package:ecommerce/data/model/response/Register_Rsponse.dart';
