@@ -1,14 +1,17 @@
+import 'package:ecommerce/domain/entites/UserEntity.dart';
+import 'package:ecommerce/domain/entites/authe_result_entity.dart';
+
 /// name : "Ahmed Abd Al-Muti"
 /// email : "ahmedmutti1l2@gmail.com"
 /// role : "user"
 
-class User {
-  User({
+class UserDto {
+  UserDto({
       this.name, 
       this.email,
   });
 
-  User.fromJson(dynamic json) {
+  UserDto.fromJson(dynamic json) {
     name = json['name'];
     email = json['email'];
   }
@@ -21,5 +24,7 @@ class User {
     map['email'] = email;
     return map;
   }
-
+  UserEntity toUserEntity(){
+    return UserEntity(name: name,email: email);
+  }
 }

@@ -1,11 +1,13 @@
 import 'package:ecommerce/ui/authe/login/Login.dart';
-import 'package:ecommerce/ui/authe/register/Cuibt/register_screen_view_model.dart';
 import 'package:ecommerce/ui/authe/register/Cuibt/register_states.dart';
+import 'package:ecommerce/ui/utils/Dialoge.dart';
 import 'package:ecommerce/ui/utils/MyTheme.dart';
 import 'package:ecommerce/ui/utils/text_filed_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../domain/di.dart';
+import 'Cuibt/register_screen_view_model.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'Register';
@@ -15,16 +17,28 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  RegisterScreenViewModel viewModel = RegisterScreenViewModel();
-
+  RegisterScreenViewModel viewModel = RegisterScreenViewModel(
+      registerUseCase: injectRegisterUesCase());
   @override
   Widget build(BuildContext context) {
     return BlocListener<RegisterScreenViewModel, RegisterStates>(
       bloc: viewModel,
       listener: (context, state) {
-        if (state is InitalRegisterState) {
+        if (state is LodingRegisterState) {
+          DialogUtils.showLoading(context, state.LodingMessage);
         } else if (state is ErrorRegisterState) {
-        } else if (state is SucessRegisterState) {}
+          DialogUtils.closeLoading(context);
+          DialogUtils.showMessage(
+              context, state.errorMessage, posActionName: 'Ok',
+              title: 'Failed Register',
+              message: state.errorMessage);
+        } else if (state is SucessRegisterState) {
+          DialogUtils.closeLoading(context);
+          DialogUtils.showMessage(
+              context, state.registerResponse.userEntity?.name,
+              message: 'Acceptable Registet',
+              posActionName: 'Ok', title: "Sucsses");
+        }
       },
       child: Scaffold(
         body: Container(
@@ -54,7 +68,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         hintText: 'Enter Your Name',
                         controller: viewModel.nameController,
                         validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
+                          if (value == null || value
+                              .trim()
+                              .isEmpty) {
                             return 'Please enter your name';
                           }
                           return null;
@@ -69,11 +85,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         hintText: 'Enter Your Email',
                         controller: viewModel.emailController,
                         validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
+                          if (value == null || value
+                              .trim()
+                              .isEmpty) {
                             return 'Please enter your email address';
                           }
                           bool emailValid = RegExp(
-                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(value);
                           if (!emailValid) {
                             return 'Enter Valid Email';
@@ -103,7 +121,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               setState(() {});
                             }),
                         validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
+                          if (value == null || value
+                              .trim()
+                              .isEmpty) {
                             return 'Please enter a password';
                           }
                           if (value.length < 6) {
@@ -122,7 +142,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: viewModel.confirmationPasswordController,
                         isObscure: true,
                         validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
+                          if (value == null || value
+                              .trim()
+                              .isEmpty) {
                             return 'Please confirm your password';
                           }
                           if (value != viewModel.passwordController.text) {
@@ -140,26 +162,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         hintText: 'Enter Your Mobile Number',
                         controller: viewModel.phoneController,
                         validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
+                          if (value == null || value
+                              .trim()
+                              .isEmpty) {
                             return 'Please enter your phone number';
                           }
                           return null;
                         },
                       ),
-
+                      InkWell(onTap: (){
+                        Navigator.of(context).pushNamed(LoginScreen.routeName);
+                      },
+                          child: Text(
+                            'Already Have Account ? Click here', style: Theme
+                              .of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(color: MyTheme.WhiteColor),)),
                       SizedBox(height: 20.h),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            // if (formKey.currentState!.validate()) {
-                            Navigator.of(context)
-                                .pushNamed(LoginScreen.routeName);
-                            // }
+                            viewModel.register();
                           },
                           child: Text(
                             'Sign up',
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .titleMedium,
                           ),
                         ),
                       ),

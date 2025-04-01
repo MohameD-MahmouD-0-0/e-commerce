@@ -1,6 +1,7 @@
 import 'package:ecommerce/ui/Splahe/SplahScreen.dart';
 import 'package:ecommerce/ui/authe/login/Login.dart';
 import 'package:ecommerce/ui/authe/register/register.dart';
+import 'package:ecommerce/ui/Home/home_screen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,8 +19,9 @@ class MyApp extends StatelessWidget{
       builder: (context,child){
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: SplashScreen.routeName,
+          initialRoute: HomeScreenView.routeName,
           routes: {
+            HomeScreenView.routeName:(context)=> HomeScreenView(),
             SplashScreen.routeName:(context)=> SplashScreen(),
             RegisterScreen.routeName:(context)=>RegisterScreen(),
             LoginScreen.routeName:(context)=>LoginScreen()
