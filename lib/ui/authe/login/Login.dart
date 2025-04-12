@@ -1,8 +1,10 @@
 import 'package:ecommerce/domain/datasource/login_use_case.dart';
+import 'package:ecommerce/ui/Home/home_screen_view.dart';
 import 'package:ecommerce/ui/authe/login/Cuibt/LoginScreenViewModel.dart';
 import 'package:ecommerce/ui/authe/login/Cuibt/LoginState.dart';
 import 'package:ecommerce/ui/utils/Dialoge.dart';
 import 'package:ecommerce/ui/utils/MyTheme.dart';
+import 'package:ecommerce/ui/utils/Shared_prefrence_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,7 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
             DialogUtils.closeLoading(context);
             return DialogUtils.showMessage(
                 context, state.loginResponse.userEntity?.name,
-                message: 'Acceptable Login', title: 'Succse',posActionName: 'Ok', );
+                message: 'Acceptable Login', title: 'Succse',posActionName: 'Ok',posAction:(){
+                  SharedPrefrenceUtils.SaveData(key: 'Token', value: state.loginResponse.token);
+              Navigator.of(context).pushNamed(HomeScreenView.routeName);
+            }  );
           } else {
             return null;
           }
