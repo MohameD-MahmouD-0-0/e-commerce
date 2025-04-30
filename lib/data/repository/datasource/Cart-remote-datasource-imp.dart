@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:ecommerce/data/api/api_manger.dart';
+import 'package:ecommerce/data/api/Api_manger.dart';
 import 'package:ecommerce/domain/entites/ResponseCartEntity.dart';
 import 'package:ecommerce/domain/entites/failer.dart';
 import '../../../domain/datasource/cart-remote-datasource.dart';
@@ -16,7 +16,7 @@ class CartRemoteDataSourceImp implements CartRemoteDataSource {
       return Left(Failer(errorMessage: l.errorMessage));
     }, (response)
     {
-      return Right(response.intoResponseCartDto());
+      return Right(response.toEntity());
       }
     );
   }

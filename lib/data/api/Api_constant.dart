@@ -7,5 +7,7 @@ class ApiConstant{
   static const String AllProductUrl = '/api/v1/products';
   static const String AddToCarUrl = '/api/v1/cart';
   static const String GetCartItemUrl = '/api/v1/cart';
+  static const String DeleteCartItem = '/api/v1/cart';
+  static const String AddToWishList = '/api/v1/wishlist';
 
 }

@@ -36,7 +36,7 @@ class ResponseCartItemDataEntity {
 
   String? id;
   String? cartOwner;
-  List<GetProductsCartItem>? products;
+  List<GetProductsCartItemEntity>? products;
   String? createdAt;
   String? updatedAt;
   int? v;
@@ -48,8 +48,8 @@ class ResponseCartItemDataEntity {
 /// product : {"subcategory":[{"_id":"6407f1bcb575d3b90bf95797","name":"Women's Clothing","slug":"women's-clothing","category":"6439d58a0049ad0b52b9003f"}],"_id":"6428ebc6dc1175abc65ca0b9","title":"Woman Shawl","quantity":225,"imageCover":"https://ecommerce.routemisr.com/Route-Academy-products/1680403397402-cover.jpeg","category":{"_id":"6439d58a0049ad0b52b9003f","name":"Women's Fashion","slug":"women's-fashion","image":"https://ecommerce.routemisr.com/Route-Academy-categories/1681511818071.jpeg"},"brand":{"_id":"64089bbe24b25627a253158b","name":"DeFacto","slug":"defacto","image":"https://ecommerce.routemisr.com/Route-Academy-brands/1678285758109.png"},"ratingsAverage":4.8,"id":"6428ebc6dc1175abc65ca0b9"}
 /// price : 191
 
-class GetProductsCartItem {
-  GetProductsCartItem({
+class GetProductsCartItemEntity {
+  GetProductsCartItemEntity({
       this.count, 
       this.id, 
       this.product, 
@@ -57,7 +57,7 @@ class GetProductsCartItem {
 
   int? count;
   String? id;
-  Product? product;
+  ProductEntity1? product;
   int? price;
 
 
@@ -73,8 +73,8 @@ class GetProductsCartItem {
 /// ratingsAverage : 4.8
 /// id : "6428ebc6dc1175abc65ca0b9"
 
-class Product {
-  Product({
+class ProductEntity1 {
+  ProductEntity1({
       this.subcategory, 
       this.id, 
       this.title, 
@@ -90,9 +90,9 @@ class Product {
   String? title;
   int? quantity;
   String? imageCover;
-  Category? category;
+  GetCartCategoryEntity? category;
   Brand? brand;
-  double? ratingsAverage;
+  num? ratingsAverage;
 }
 
 /// _id : "64089bbe24b25627a253158b"
@@ -119,8 +119,8 @@ class Brand {
 /// slug : "women's-fashion"
 /// image : "https://ecommerce.routemisr.com/Route-Academy-c
 
-class Category {
-  Category({
+class GetCartCategoryEntity {
+  GetCartCategoryEntity({
       this.id, 
       this.name, 
       this.slug, 

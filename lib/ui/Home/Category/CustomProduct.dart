@@ -3,13 +3,20 @@ import 'package:ecommerce/ui/utils/MyTheme.dart';
 import 'package:flutter/material.dart';
 import 'Cuibt/Product_tap_view_model.dart';
 
-class CustomProduct extends StatelessWidget {
+class CustomProduct extends StatefulWidget {
   final DataEntity dataEntity;
+
   CustomProduct({required this.dataEntity});
 
   @override
+  State<CustomProduct> createState() => _CustomProductState();
+}
+
+class _CustomProductState extends State<CustomProduct> {
+  @override
   Widget build(BuildContext context) {
-    final viewModel = ProdcutTapViewModel.get(context); // تم جلب الـ ViewModel من BlocProvider
+    final viewModel = ProdcutTapViewModel.get(context);
+    final isFavorite = viewModel.isWishList.contains(widget.dataEntity.id);
 
     return Container(
       margin: EdgeInsets.all(8),
@@ -35,7 +42,7 @@ class CustomProduct extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(16),
                 child: Image.network(
-                  dataEntity.imageCover!,
+                  widget.dataEntity.imageCover!,
                   height: MediaQuery.of(context).size.height * 0.18,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -46,8 +53,21 @@ class CustomProduct extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: Colors.white,
                   radius: 16,
-                  child: Icon(Icons.favorite_border_rounded,
-                      color: MyTheme.PrimaryLight, size: 18),
+                  child: InkWell(
+                    onTap: () {
+                      viewModel.addToWishList(widget.dataEntity.id!);
+                    },
+                    child: viewModel.isWishList.contains(widget.dataEntity.id)?
+                        Icon(Icons.favorite_rounded,color: MyTheme.PrimaryLight,):
+                        Icon(Icons.favorite_border_rounded,color: MyTheme.PrimaryLight,),
+                    // child: Icon(
+                    //   isFavorite
+                    //       ? Icons.favorite_rounded
+                    //       : Icons.favorite_border_rounded,
+                    //   color: isFavorite ? MyTheme.PrimaryLight : Colors.grey,
+                    //   size: 18,
+                    // ),
+                  ),
                 ),
               )
             ],
@@ -55,7 +75,7 @@ class CustomProduct extends StatelessWidget {
           SizedBox(height: 8),
           // Title
           Text(
-            dataEntity.title!,
+            widget.dataEntity.title!,
             style: TextStyle(fontWeight: FontWeight.bold),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -63,14 +83,14 @@ class CustomProduct extends StatelessWidget {
           SizedBox(height: 4),
           // Description
           Text(
-            dataEntity.description!,
+            widget.dataEntity.description!,
             style: TextStyle(color: Colors.grey),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           SizedBox(height: 10),
           Text(
-            'EGP ${dataEntity.price}',
+            'EGP ${widget.dataEntity.price}',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -84,7 +104,7 @@ class CustomProduct extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    'Review (${dataEntity.ratingsAverage})',
+                    'Review (${widget.dataEntity.ratingsAverage})',
                     style: TextStyle(fontSize: 12),
                   ),
                   SizedBox(width: 4),
@@ -96,7 +116,7 @@ class CustomProduct extends StatelessWidget {
                 radius: 14,
                 child: InkWell(
                   onTap: () {
-                    viewModel.addToCart(dataEntity.id!);
+                    viewModel.addToCart(widget.dataEntity.id!);
                   },
                   child: Icon(Icons.add, color: Colors.white, size: 18),
                 ),

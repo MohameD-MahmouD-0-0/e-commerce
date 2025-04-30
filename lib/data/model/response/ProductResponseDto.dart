@@ -43,8 +43,6 @@ ProductResponseEntity toProductResponseDto(){
          updatedAt: dto.updatedAt,
          id: dto.id,
          title: dto.title,
-         // brand: dto.brand,
-         // category: dto.category
          description: dto.description,
          imageCover: dto.imageCover,
          images: dto.images,

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:ecommerce/data/api/api_manger.dart';
+import 'package:ecommerce/data/api/Api_manger.dart';
 import '../../../../domain/datasource/authe_datasource.dart';
 import '../../../../domain/entites/authe_result_entity.dart';
 import '../../../../domain/entites/failer.dart';

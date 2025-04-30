@@ -1,7 +1,7 @@
-import 'package:ecommerce/domain/datasource/login_use_case.dart';
 import 'package:ecommerce/ui/Home/home_screen_view.dart';
 import 'package:ecommerce/ui/authe/login/Cuibt/LoginScreenViewModel.dart';
 import 'package:ecommerce/ui/authe/login/Cuibt/LoginState.dart';
+import 'package:ecommerce/ui/authe/register/register.dart';
 import 'package:ecommerce/ui/utils/Dialoge.dart';
 import 'package:ecommerce/ui/utils/MyTheme.dart';
 import 'package:ecommerce/ui/utils/Shared_prefrence_utils.dart';
@@ -157,11 +157,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               viewModel.loginUseCase;
                             },
-                            child: Text('Create Account',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(color: MyTheme.WhiteColor)),
+                            child: InkWell(
+                              onTap: (){
+                                Navigator.of(context).pushNamed(RegisterScreen.routeName);
+                              },
+                              child: Text('Create Account',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(color: MyTheme.WhiteColor)),
+                            ),
                           )
                         ],
                       )

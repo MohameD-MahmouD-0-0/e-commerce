@@ -1,9 +1,6 @@
 import 'package:ecommerce/domain/entites/ResponseCartEntity.dart';
 
-/// status : "success"
-/// numOfCartItems : 1
-/// cartId : "67f477667379fd935b0aefe7"
-/// data : {"_id":"67f477667379fd935b0aefe7","cartOwner":"64283590fc5553c3377c03a7","products":[{"count":2,"_id":"67f477667379fd935b0aefe8","product":{"subcategory":[{"_id":"6407f1bcb575d3b90bf95797","name":"Women's Clothing","slug":"women's-clothing","category":"6439d58a0049ad0b52b9003f"}],"_id":"6428ebc6dc1175abc65ca0b9","title":"Woman Shawl","quantity":225,"imageCover":"https://ecommerce.routemisr.com/Route-Academy-products/1680403397402-cover.jpeg","category":{"_id":"6439d58a0049ad0b52b9003f","name":"Women's Fashion","slug":"women's-fashion","image":"https://ecommerce.routemisr.com/Route-Academy-categories/1681511818071.jpeg"},"brand":{"_id":"64089bbe24b25627a253158b","name":"DeFacto","slug":"defacto","image":"https://ecommerce.routemisr.com/Route-Academy-brands/1678285758109.png"},"ratingsAverage":4.8,"id":"6428ebc6dc1175abc65ca0b9"},"price":191}],"createdAt":"2025-04-08T01:09:58.293Z","updatedAt":"2025-04-09T10:11:46.100Z","__v":0,"totalCartPrice":382}
+import '../../../domain/entites/ProductResponseEntity.dart';
 
 class ResponseCartDto {
   ResponseCartDto({
@@ -35,24 +32,16 @@ class ResponseCartDto {
     }
     return map;
   }
-  ResponseCartEntity intoResponseCartDto(){
+
+  ResponseCartEntity toEntity() {
     return ResponseCartEntity(
-    status: status,
-    cartId: cartId,
-  numOfCartItems: numOfCartItems,
-  data: ResponseCartItemDataEntity(),
-
-  );
+      status: status,
+      cartId: cartId,
+      numOfCartItems: numOfCartItems,
+      data: data?.toEntity(),
+    );
+  }
 }
-}
-
-/// _id : "67f477667379fd935b0aefe7"
-/// cartOwner : "64283590fc5553c3377c03a7"
-/// products : [{"count":2,"_id":"67f477667379fd935b0aefe8","product":{"subcategory":[{"_id":"6407f1bcb575d3b90bf95797","name":"Women's Clothing","slug":"women's-clothing","category":"6439d58a0049ad0b52b9003f"}],"_id":"6428ebc6dc1175abc65ca0b9","title":"Woman Shawl","quantity":225,"imageCover":"https://ecommerce.routemisr.com/Route-Academy-products/1680403397402-cover.jpeg","category":{"_id":"6439d58a0049ad0b52b9003f","name":"Women's Fashion","slug":"women's-fashion","image":"https://ecommerce.routemisr.com/Route-Academy-categories/1681511818071.jpeg"},"brand":{"_id":"64089bbe24b25627a253158b","name":"DeFacto","slug":"defacto","image":"https://ecommerce.routemisr.com/Route-Academy-brands/1678285758109.png"},"ratingsAverage":4.8,"id":"6428ebc6dc1175abc65ca0b9"},"price":191}]
-/// createdAt : "2025-04-08T01:09:58.293Z"
-/// updatedAt : "2025-04-09T10:11:46.100Z"
-/// __v : 0
-/// totalCartPrice : 382
 
 class ResponseCartItemDataDto {
   ResponseCartItemDataDto({
@@ -101,12 +90,19 @@ class ResponseCartItemDataDto {
     map['totalCartPrice'] = totalCartPrice;
     return map;
   }
-}
 
-/// count : 2
-/// _id : "67f477667379fd935b0aefe8"
-/// product : {"subcategory":[{"_id":"6407f1bcb575d3b90bf95797","name":"Women's Clothing","slug":"women's-clothing","category":"6439d58a0049ad0b52b9003f"}],"_id":"6428ebc6dc1175abc65ca0b9","title":"Woman Shawl","quantity":225,"imageCover":"https://ecommerce.routemisr.com/Route-Academy-products/1680403397402-cover.jpeg","category":{"_id":"6439d58a0049ad0b52b9003f","name":"Women's Fashion","slug":"women's-fashion","image":"https://ecommerce.routemisr.com/Route-Academy-categories/1681511818071.jpeg"},"brand":{"_id":"64089bbe24b25627a253158b","name":"DeFacto","slug":"defacto","image":"https://ecommerce.routemisr.com/Route-Academy-brands/1678285758109.png"},"ratingsAverage":4.8,"id":"6428ebc6dc1175abc65ca0b9"}
-/// price : 191
+  ResponseCartItemDataEntity toEntity() {
+    return ResponseCartItemDataEntity(
+      id: id,
+      cartOwner: cartOwner,
+      products: products?.map((e) => e.toEntity()).toList(),
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      v: v,
+      totalCartPrice: totalCartPrice,
+    );
+  }
+}
 
 class Products {
   Products({
@@ -119,8 +115,7 @@ class Products {
   Products.fromJson(dynamic json) {
     count = json['count'];
     id = json['_id'];
-    product =
-        json['product'] != null ? Product.fromJson(json['product']) : null;
+    product = json['product'] != null ? Product.fromJson(json['product']) : null;
     price = json['price'];
   }
 
@@ -139,17 +134,16 @@ class Products {
     map['price'] = price;
     return map;
   }
-}
 
-/// subcategory : [{"_id":"6407f1bcb575d3b90bf95797","name":"Women's Clothing","slug":"women's-clothing","category":"6439d58a0049ad0b52b9003f"}]
-/// _id : "6428ebc6dc1175abc65ca0b9"
-/// title : "Woman Shawl"
-/// quantity : 225
-/// imageCover : "https://ecommerce.routemisr.com/Route-Academy-products/1680403397402-cover.jpeg"
-/// category : {"_id":"6439d58a0049ad0b52b9003f","name":"Women's Fashion","slug":"women's-fashion","image":"https://ecommerce.routemisr.com/Route-Academy-categories/1681511818071.jpeg"}
-/// brand : {"_id":"64089bbe24b25627a253158b","name":"DeFacto","slug":"defacto","image":"https://ecommerce.routemisr.com/Route-Academy-brands/1678285758109.png"}
-/// ratingsAverage : 4.8
-/// id : "6428ebc6dc1175abc65ca0b9"
+  GetProductsCartItemEntity toEntity() {
+    return GetProductsCartItemEntity(
+      count: count,
+      id: id,
+      product: product?.toEntity(),
+      price: price,
+    );
+  }
+}
 
 class Product {
   Product({
@@ -174,8 +168,7 @@ class Product {
     title = json['title'];
     quantity = json['quantity'];
     imageCover = json['imageCover'];
-    category =
-        json['category'] != null ? Category.fromJson(json['category']) : null;
+    category = json['category'] != null ? Category.fromJson(json['category']) : null;
     brand = json['brand'] != null ? Brand.fromJson(json['brand']) : null;
     ratingsAverage = json['ratingsAverage'];
     id = json['id'];
@@ -188,7 +181,7 @@ class Product {
   String? imageCover;
   Category? category;
   Brand? brand;
-  double? ratingsAverage;
+  num? ratingsAverage;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -209,47 +202,20 @@ class Product {
     map['id'] = id;
     return map;
   }
-}
 
-/// _id : "64089bbe24b25627a253158b"
-/// name : "DeFacto"
-/// slug : "defacto"
-/// image : "https://ecommerce.routemisr.com/Route-Academy-brands/1678285758109.png"
-
-class Brand {
-  Brand({
-    this.id,
-    this.name,
-    this.slug,
-    this.image,
-  });
-
-  Brand.fromJson(dynamic json) {
-    id = json['_id'];
-    name = json['name'];
-    slug = json['slug'];
-    image = json['image'];
-  }
-
-  String? id;
-  String? name;
-  String? slug;
-  String? image;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['_id'] = id;
-    map['name'] = name;
-    map['slug'] = slug;
-    map['image'] = image;
-    return map;
+  ProductEntity1 toEntity() {
+    return ProductEntity1(
+      // subcategory: subcategory?.map((e) => e.toEntity()).toList(),
+      id: id,
+      title: title,
+      quantity: quantity,
+      imageCover: imageCover,
+      category: category?.toEntity(),
+      // brand: brand?.toEntity(),
+      ratingsAverage: ratingsAverage,
+    );
   }
 }
-
-/// _id : "6439d58a0049ad0b52b9003f"
-/// name : "Women's Fashion"
-/// slug : "women's-fashion"
-/// image : "https://ecommerce.routemisr.com/Route-Academy-categories/1681511818071.jpeg"
 
 class Category {
   Category({
@@ -279,12 +245,55 @@ class Category {
     map['image'] = image;
     return map;
   }
+
+  GetCartCategoryEntity toEntity() {
+    return GetCartCategoryEntity(
+      id: id,
+      name: name,
+      slug: slug,
+      image: image,
+    );
+  }
 }
 
-/// _id : "6407f1bcb575d3b90bf95797"
-/// name : "Women's Clothing"
-/// slug : "women's-clothing"
-/// category : "6439d58a0049ad0b52b9003f"
+class Brand {
+  Brand({
+    this.id,
+    this.name,
+    this.slug,
+    this.image,
+  });
+
+  Brand.fromJson(dynamic json) {
+    id = json['_id'];
+    name = json['name'];
+    slug = json['slug'];
+    image = json['image'];
+  }
+
+  String? id;
+  String? name;
+  String? slug;
+  String? image;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['_id'] = id;
+    map['name'] = name;
+    map['slug'] = slug;
+    map['image'] = image;
+    return map;
+  }
+
+  BrandEntity toEntity() {
+    return BrandEntity(
+      id: id,
+      name: name,
+      slug: slug,
+      image: image,
+    );
+  }
+}
 
 class Subcategory {
   Subcategory({
@@ -313,5 +322,14 @@ class Subcategory {
     map['slug'] = slug;
     map['category'] = category;
     return map;
+  }
+
+  SubcategoryEntity toEntity() {
+    return SubcategoryEntity(
+      id: id,
+      name: name,
+      slug: slug,
+      category: category,
+    );
   }
 }

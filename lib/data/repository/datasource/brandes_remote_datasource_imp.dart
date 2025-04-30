@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:ecommerce/data/api/api_manger.dart';
+import 'package:ecommerce/data/api/Api_manger.dart';
 import 'package:ecommerce/domain/entites/BrandesResponseEntity.dart';
 import 'package:ecommerce/domain/entites/failer.dart';
 

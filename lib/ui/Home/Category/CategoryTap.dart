@@ -8,33 +8,53 @@ import 'Cuibt/Prodcut_tap_state.dart';
 import 'CustomProduct.dart';
 import 'Product_Detailes_view.dart';
 
-class CategoryTap extends StatelessWidget {
+class CategoryTap extends StatefulWidget {
+  @override
+  State<CategoryTap> createState() => _CategoryTapState();
+}
+
+class _CategoryTapState extends State<CategoryTap> {
   ProdcutTapViewModel viewModel = ProdcutTapViewModel(
-  productuseCase: injectProductUseCase(),
-  addToCartUseCase: injectAddtoCartUseCase(),
-  )..getAllProduct();
+    productuseCase: injectProductUseCase(),
+    addToCartUseCase: injectAddtoCartUseCase(),
+    wishListUseCase: injectAddToWishListUseCase(),
+  );
+
   @override
   Widget build(BuildContext context) {
+    // @override
+    // void didChangeDependencies() {
+    //   super.didChangeDependencies();
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       SnackBar(content: Text('Added Successfully')),
+    //     );
+    //   });
+    // }
+
     return BlocProvider(
-      create: (context) =>viewModel..getAllProduct(),
+      create: (context) => viewModel..getAllProduct(),
       child: BlocBuilder<ProdcutTapViewModel, ProdctState>(
         builder: (context, state) {
           final viewModel = ProdcutTapViewModel.get(context);
-
           if (state is LodingProductState) {
             return Center(child: CircularProgressIndicator());
           } else if (state is ErrorProductState) {
             return Center(child: Text(state.errorMessage));
-          } else if (state is SuccsesProductState || state is SuccsesAddToCart) {
+          } else if (state is SuccsesProductState ||
+              state is SuccsesAddToCart ||
+              state is SuccessAddToWishListState) {
             final products = viewModel.prodcutList;
-
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 30,left: 10),
+                  padding: const EdgeInsets.only(top: 30, left: 10),
                   child: Image.asset('assets/images/Group 5 (1).png'),
-                ),SizedBox(height: 20,),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -50,7 +70,8 @@ class CategoryTap extends StatelessWidget {
                           decoration: InputDecoration(
                             hintText: 'What are you looking for?',
                             hintStyle: TextStyle(fontSize: 14),
-                            prefixIcon: Icon(Icons.search, color: MyTheme.PrimaryLight),
+                            prefixIcon:
+                                Icon(Icons.search, color: MyTheme.PrimaryLight),
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(vertical: 10),
                           ),
@@ -63,9 +84,10 @@ class CategoryTap extends StatelessWidget {
                       child: Badge(
                         label: Text(viewModel.numOfCartItem.toString()),
                         child: InkWell(
-                          onTap: (){
-                            Navigator.of(context).pushNamed(AddToCartTap.routeName);
-                          },
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(AddToCartTap.routeName);
+                            },
                             child: Image.asset('assets/images/Vector.png')),
                       ),
                     ),
@@ -94,8 +116,10 @@ class CategoryTap extends StatelessWidget {
               ],
             );
           }
-
-          return Container();
+          // } else if (state is SuccessAddToWishListState) {
+          //   didChangeDependencies();
+          // }
+          return Center(child: CircularProgressIndicator());
         },
       ),
     );

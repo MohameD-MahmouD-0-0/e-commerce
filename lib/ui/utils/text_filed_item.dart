@@ -10,15 +10,18 @@ class TextFiledItem extends StatelessWidget {
   var KeyboardType;
   String? Function(String?)? validator;
   TextEditingController controller;
+  TextStyle? filedNameStyle;
 
-  TextFiledItem(
-      {required this.filedName,
-      required this.hintText,
-      this.suffixIcon,
-      this.isObscure = false,
-      this.validator,
-      required this.controller,
-      this.KeyboardType = TextInputType.text});
+  TextFiledItem({
+    required this.filedName,
+    required this.hintText,
+    this.suffixIcon,
+    this.isObscure = false,
+    this.validator,
+    required this.controller,
+    this.KeyboardType = TextInputType.text,
+    this.filedNameStyle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,29 +30,33 @@ class TextFiledItem extends StatelessWidget {
       children: [
         Text(
           filedName,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(fontSize: 18.sp, color: MyTheme.WhiteColor),
+          style: filedNameStyle ??
+              Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontSize: 18.sp,
+                color: MyTheme.WhiteColor,
+              ),
         ),
         Padding(
           padding: EdgeInsets.only(top: 24.h, bottom: 20.h),
           child: TextFormField(
             decoration: InputDecoration(
-                // fillColor: AppColor.whiteColor,
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r)),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r)),
-                errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r)),
-                hintText: hintText,
-                hintStyle: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(color: MyTheme.blackcolor),
-                suffixIcon: suffixIcon),
+              filled: true,
+              fillColor: Colors.white, // ✅ الخلفية البيضاء
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.r),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.r),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.r),
+              ),
+              hintText: hintText,
+              hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: filedNameStyle?.color ?? MyTheme.blackcolor, // ✅ نفس لون العنوان
+              ),
+              suffixIcon: suffixIcon,
+            ),
             style: TextStyle(color: MyTheme.blackcolor),
             validator: validator,
             controller: controller,

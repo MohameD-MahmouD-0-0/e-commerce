@@ -23,4 +23,8 @@ class SharedPrefrenceUtils {
       return sharedPrefrence.setBool(key, value);
     }
   }
+
+  static Future<bool> removeData({required String s}) {
+    return sharedPrefrence.remove(s);
+  }
 }

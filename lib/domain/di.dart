@@ -1,32 +1,52 @@
 import 'package:ecommerce/data/repository/Cart-reposatiory-imp.dart';
 import 'package:ecommerce/data/repository/add_to_cart_reposatiory_imp.dart';
+import 'package:ecommerce/data/repository/add_to_wish_list_reposatiort_imp.dart';
 import 'package:ecommerce/data/repository/brandes_reposatiory_imp.dart';
 import 'package:ecommerce/data/repository/category_reposatiory_imp.dart';
 import 'package:ecommerce/data/repository/datasource/Cart-remote-datasource-imp.dart';
 import 'package:ecommerce/data/repository/datasource/Product_Remote_DataSource_Imp.dart';
 import 'package:ecommerce/data/repository/datasource/add_to_cart_remote_datasource_imp.dart';
 import 'package:ecommerce/data/repository/datasource/category_remote_datasource_imp.dart';
+import 'package:ecommerce/data/repository/datasource/update_cart_item_remote_datasource_imp.dart';
+import 'package:ecommerce/data/repository/delete_cart_item_reposatiory_imp.dart';
+import 'package:ecommerce/data/repository/get_wish_list_reposatiory_imp.dart';
 import 'package:ecommerce/data/repository/product_reposatiory_imp.dart';
+import 'package:ecommerce/data/repository/update_cart_item_reposatiory_imp.dart';
 import 'package:ecommerce/domain/datasource/Product_Remote_dataSource.dart';
 import 'package:ecommerce/domain/datasource/add_to_cart_remote_datasource.dart';
 import 'package:ecommerce/domain/datasource/add_to_cart_use_case.dart';
+import 'package:ecommerce/domain/datasource/add_to_wish_list_usecase.dart';
 import 'package:ecommerce/domain/datasource/brandes_Remote_datasource.dart';
 import 'package:ecommerce/domain/datasource/brandes_use_case.dart';
 import 'package:ecommerce/domain/datasource/cart-remote-datasource.dart';
 import 'package:ecommerce/domain/datasource/category_use_case.dart';
+import 'package:ecommerce/domain/datasource/delete_cart_item_remote_datasource.dart';
+import 'package:ecommerce/domain/datasource/delete_cart_item_usecase.dart';
 import 'package:ecommerce/domain/datasource/get-cart-item-usecase.dart';
 import 'package:ecommerce/domain/datasource/prodcut_Usecase.dart';
+import 'package:ecommerce/domain/datasource/update_cart_item_remote_datasource.dart';
+import 'package:ecommerce/domain/datasource/update_cart_item_usecase.dart';
 import 'package:ecommerce/domain/reposatiory/Cart-reposatiory-contract.dart';
 import 'package:ecommerce/domain/reposatiory/add_to_cart_reposatiory_contract.dart';
+import 'package:ecommerce/domain/reposatiory/add_to_wish_list_reposatiory_contract.dart';
 import 'package:ecommerce/domain/reposatiory/authe_reposatiory_contract.dart';
 import 'package:ecommerce/domain/reposatiory/brandes_reposatiory_contract.dart';
 import 'package:ecommerce/domain/reposatiory/category_reposatiory_contract.dart';
+import 'package:ecommerce/domain/reposatiory/delete_cartitem_reposatiory_contract.dart';
+import 'package:ecommerce/domain/reposatiory/get_wish_list_reposatiory_contract.dart';
 import 'package:ecommerce/domain/reposatiory/product_reposatiory_contract.dart';
-import '../data/api/api_manger.dart';
+import 'package:ecommerce/domain/reposatiory/update_cart_item_reposatiory_contract.dart';
+import '../data/api/Api_manger.dart';
 import '../data/repository/authe-reposatiory/dataSource/authe_datasource_imp.dart';
 import '../data/repository/authe-reposatiory/reposatiory/authe_reposatiory_imp.dart';
+import '../data/repository/datasource/add_to_wish_list_remote_datasource_imp.dart';
 import '../data/repository/datasource/brandes_remote_datasource_imp.dart';
+import '../data/repository/datasource/delete_cart_item_datasource_imp.dart';
+import '../data/repository/datasource/get_wish_list_remote_datasource_imp.dart';
+import 'datasource/add_to_wish_list_remote_datasource.dart';
 import 'datasource/authe_datasource.dart';
+import 'datasource/get_wish_list_remote_datasource.dart';
+import 'datasource/get_wish_list_usecase.dart';
 import 'datasource/login_use_case.dart';
 import 'datasource/register_usecase.dart';
 
@@ -91,4 +111,48 @@ CartReposatioryContract injectCartReposatioryContract(){
 }
 CartRemoteDataSource injectCartRemoteDataSource(){
   return CartRemoteDataSourceImp(apiManger: ApiManger.getInstance());
+}
+
+DeleteCartItemUseCase injectDeleteCartItemUseCase(){
+  return DeleteCartItemUseCase(deleteCartItemReposatioryContract:injectDeleteCartItemReposatioryContract());
+}
+DeleteCartItemReposatioryContract injectDeleteCartItemReposatioryContract(){
+  return DeleteCartItemReposatioryImp(deleteCartItemRemoteDatasource:injectDeleteCartItemRemoteDatasource());
+}
+DeleteCartItemRemoteDatasource injectDeleteCartItemRemoteDatasource(){
+  return DeleteCartItemDataSourceImp(apiManger: ApiManger.getInstance());
+}
+
+UpdateCartItemUseCase injectUpdateCartItemUseCase(){
+  return UpdateCartItemUseCase(updateCartItemReposatioryContract:injectUpdateCartItemReposatioryContract());
+}
+UpdateCartItemReposatioryContract injectUpdateCartItemReposatioryContract(){
+  return UpdateCartItemReposatioryImp(updateCartItemRemoteDatasource:injectUpdateCartItemRemoteDatasource());
+}
+UpdateCartItemRemoteDatasource injectUpdateCartItemRemoteDatasource(){
+  return UpdateCartItemRemoteDataSourceImp(apiManger: ApiManger.getInstance());
+}
+
+AddToWishListUseCase injectAddToWishListUseCase (){
+  return AddToWishListUseCase(addToWishListReposatiortContract:injectAddToWishListReposatioryContract());
+}
+
+ AddToWishListReposatiortContract injectAddToWishListReposatioryContract() {
+     return AddToWishListReposatioryImp(
+         addToWishListRemoteDatasource: injectAddToWishListRemoteDatasource());
+ }
+ AddToWishListRemoteDatasource injectAddToWishListRemoteDatasource() {
+  return AddToWishListRemoteDataSourceImp(apiManger: ApiManger.getInstance());
+ }
+
+
+GetWishListUseCase injectGetWishListUseCase(){
+  return GetWishListUseCase(getWishListReposatioryContract:injectGetWishListReposatioryContract());
+}
+
+GetWishListReposatioryContract injectGetWishListReposatioryContract() {
+  return GetWishListReposatioryImp(getWishListRemoteDatasource: injectGetWishListRemoteDatasource());
+}
+GetWishListRemoteDatasource injectGetWishListRemoteDatasource() {
+  return GetWishListRemoteDataSourceImp(apiManger: ApiManger.getInstance());
 }
